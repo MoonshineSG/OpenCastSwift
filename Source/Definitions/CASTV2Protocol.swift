@@ -78,6 +78,7 @@ struct CastJSONPayloadKeys {
   static let contentType = "contentType"
   static let streamType = "streamType"
   static let metadata = "metadata"
+  static let duration = "duration"
   static let metadataType = "metadataType"
   static let title = "title"
   static let images = "images"

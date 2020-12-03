@@ -18,14 +18,29 @@ public enum CastMediaPlayerState: String {
 
 public final class CastMediaStatus: NSObject {
   
+    public struct MediaStatusMedia {
+        public var duration: Double?
+        public var contentID: String?
+        public let metadata: JSON?
+          init?(json: JSON) {
+              if let duration = json[CastJSONPayloadKeys.duration].double  {
+                self.duration = duration
+              }
+            if let contentID = json[CastJSONPayloadKeys.contentId].string,
+               let data = contentID.data(using: .utf8) {
+                self.contentID = (try? JSON(data: data))?[CastJSONPayloadKeys.contentId].string ?? contentID
+            }
+            self.metadata = json[CastJSONPayloadKeys.metadata]
+        }
+    }
   public let mediaSessionId: Int
   public let playbackRate: Int
   public let playerState: CastMediaPlayerState
   public let currentTime: Double
-  public let metadata: JSON?
-  public let contentID: String?
+  
   private let createdDate = Date()
   
+  public let media: MediaStatusMedia?
   public var adjustedCurrentTime: Double {
     return currentTime - Double(playbackRate)*createdDate.timeIntervalSinceNow
   }
@@ -47,13 +62,8 @@ public final class CastMediaStatus: NSObject {
     
     currentTime = json[CastJSONPayloadKeys.currentTime].double ?? 0
     
-    metadata = json[CastJSONPayloadKeys.media][CastJSONPayloadKeys.metadata]
+    media = MediaStatusMedia(json: json[CastJSONPayloadKeys.media])
     
-    if let contentID = json[CastJSONPayloadKeys.media][CastJSONPayloadKeys.contentId].string, let data = contentID.data(using: .utf8) {
-      self.contentID = (try? JSON(data: data))?[CastJSONPayloadKeys.contentId].string ?? contentID
-    } else {
-      contentID = nil
-    }
     
     super.init()
   }
