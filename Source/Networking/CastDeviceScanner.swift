@@ -121,7 +121,7 @@ extension CastDeviceScanner: NetServiceBrowserDelegate {
     #endif
     
     guard let deviceId = service.id,
-      let index = devices.index(where: { $0.id == deviceId }) else {
+      let index = devices.firstIndex(where: { $0.id == deviceId }) else {
         #if DEBUG
           NSLog("No device")
         #endif
@@ -137,7 +137,7 @@ extension CastDeviceScanner: NetServiceBrowserDelegate {
   }
   
   @discardableResult func removeService(_ service: NetService) -> NetService? {
-    if let index = services.index(of: service) {
+    if let index = services.firstIndex(of: service) {
       return services.remove(at: index)
     }
     
@@ -145,7 +145,7 @@ extension CastDeviceScanner: NetServiceBrowserDelegate {
   }
   
   func addDevice(_ device: CastDevice) {
-    if let index = devices.index(where: { $0.id == device.id }) {
+    if let index = devices.firstIndex(where: { $0.id == device.id }) {
       let existing = devices[index]
 
       guard existing.name != device.name ||  existing.hostName != device.hostName else { return }
