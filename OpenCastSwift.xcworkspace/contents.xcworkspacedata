@@ -5,6 +5,9 @@
       location = "group:Sample Apps.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/miles/Projects/OpenCastSwift/OpenCastSwift.xcodeproj">
+      location = "group:OpenCastSwift.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
