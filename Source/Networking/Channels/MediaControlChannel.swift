@@ -30,9 +30,9 @@ class MediaControlChannel: CastChannel {
     switch type {
     case .mediaStatus:
       guard let status = json["status"].array?.first else { return }
-      
-      delegate?.channel(self, didReceive: CastMediaStatus(json: status))
-      
+        DispatchQueue.main.async {
+            self.delegate?.channel(self, didReceive: CastMediaStatus(json: status))
+        }
     default:
       print(rawType)
     }
@@ -70,7 +70,15 @@ class MediaControlChannel: CastChannel {
   public func sendPlay(for app: CastApp, mediaSessionId: Int) {
     send(.play, for: app, mediaSessionId: mediaSessionId)
   }
-  
+
+  public func sendNext(for app: CastApp, mediaSessionId: Int) {
+    send(.next, for: app, mediaSessionId: mediaSessionId)
+  }
+
+  public func sendPrev(for app: CastApp, mediaSessionId: Int) {
+    send(.prev, for: app, mediaSessionId: mediaSessionId)
+  }
+    
   public func sendStop(for app: CastApp, mediaSessionId: Int) {
     send(.stop, for: app, mediaSessionId: mediaSessionId)
   }

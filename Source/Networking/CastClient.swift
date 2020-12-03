@@ -502,6 +502,41 @@ public final class CastClient: NSObject, RequestDispatchable, Channelable {
     }
   }
   
+ public func next() {
+      guard outputStream != nil, let app = connectedApp else { return }
+      if let mediaStatus = currentMediaStatus {
+        mediaControlChannel.sendNext(for: app, mediaSessionId: mediaStatus.mediaSessionId)
+      } else {
+        mediaControlChannel.requestMediaStatus(for: app) { result in
+          switch result {
+          case .success(let mediaStatus):
+            self.mediaControlChannel.sendNext(for: app, mediaSessionId: mediaStatus.mediaSessionId)
+            
+          case .failure(let error):
+            print(error)
+          }
+        }
+      }
+    }
+  
+    public func previous() {
+         guard outputStream != nil, let app = connectedApp else { return }
+         
+         if let mediaStatus = currentMediaStatus {
+           mediaControlChannel.sendPrev(for: app, mediaSessionId: mediaStatus.mediaSessionId)
+         } else {
+           mediaControlChannel.requestMediaStatus(for: app) { result in
+             switch result {
+             case .success(let mediaStatus):
+               self.mediaControlChannel.sendPrev(for: app, mediaSessionId: mediaStatus.mediaSessionId)
+               
+             case .failure(let error):
+               print(error)
+             }
+           }
+         }
+       }
+    
   public func seek(to currentTime: Float) {
     guard outputStream != nil, let app = connectedApp else { return }
     

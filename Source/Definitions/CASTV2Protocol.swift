@@ -30,6 +30,8 @@ enum CastMessageType: String {
   case load = "LOAD"
   case pause = "PAUSE"
   case play = "PLAY"
+  case next = "QUEUE_NEXT"
+  case prev = "QUEUE_PREV"
   case seek = "SEEK"
   case setVolume = "SET_VOLUME"
   case setDeviceVolume = "SET_DEVICE_VOLUME"
