@@ -14,6 +14,9 @@ public enum CastMediaPlayerState: String {
   case playing = "PLAYING"
   case paused = "PAUSED"
   case stopped = "STOPPED"
+  case idle = "IDLE"
+  case unknown = "UNKNOWN"
+
 }
 
 public final class CastMediaStatus: NSObject {
@@ -58,7 +61,7 @@ public final class CastMediaStatus: NSObject {
     
     playbackRate = json[CastJSONPayloadKeys.playbackRate].int ?? 1
     
-    playerState = json[CastJSONPayloadKeys.playerState].string.flatMap(CastMediaPlayerState.init) ?? .buffering
+    playerState = json[CastJSONPayloadKeys.playerState].string.flatMap(CastMediaPlayerState.init) ?? .unknown
     
     currentTime = json[CastJSONPayloadKeys.currentTime].double ?? 0
     
